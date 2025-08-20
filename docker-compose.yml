@@ -5,25 +5,42 @@ services:
     depends_on: 
       - backend
     build: ./frontend
-    ports:
-      - 3000:3000
+    container_name: frontend
+    expose:               # expose to other containers, not VPS
+      - "3000"
 
   backend: 
     depends_on: 
       - db
     build: ./backend
-    ports: 
-      - 3001:3001
+    container_name: backend
+    expose:
+      - "3001"
     environment: 
       DB_URL: mongodb://db/vidly
     command: ./docker-entrypoint.sh
 
   db:
     image: mongo:4.0-xenial
+    container_name: db
     ports:
       - 27017:27017
     volumes:
       - vidly:/data/db
 
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
 volumes:
   vidly:
+  caddy_data:
+  caddy_config:

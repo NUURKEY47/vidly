@@ -1,0 +1,7 @@
+eastcod.xyz{
+    reverse_proxy frontend:3000
+}
+
+api.eastcod.xyz {
+    reverse_proxy backend:3001
+}
