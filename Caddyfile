@@ -1,4 +1,4 @@
-eastcod.xyz{
+eastcod.xyz {
     reverse_proxy frontend:3000
 }
 
